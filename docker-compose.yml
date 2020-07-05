@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+  client:
+    stdin_open: true
+    build: ./client
+    depends_on:
+      - api
+    expose:
+      - ${CLIENT_PORT}
+    environment:
+      - CLIENT_PORT=${CLIENT_PORT}
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+    volumes:
+      - ./client:/srv/app/client
+    links:
+      - api
+  api:
+    build: ./api
+    depends_on:
+      - mysql
+    expose:
+      - ${API_PORT}
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOST_IP=mysql
+      - WAIT_HOSTS=mysql:3306
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=1
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+    ports:
+      - ${API_PORT}:${API_PORT}
+    volumes:
+      - ./api:/srv/app/api
+    links:
+      - mysql
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+    links:
+      - mysql:mysql
+    ports:
+      - 8080:80
+    restart: always
+  mysql:
+    image: mysql:8.0.20
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    cap_add:
+      - SYS_NICE
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    volumes:
+      - ./api/db/sample.sql:/docker-entrypoint-initdb.d/sample.sql

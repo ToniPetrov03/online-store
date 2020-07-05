@@ -1,0 +1,30 @@
+{
+  "type": "module",
+  "name": "onlinestoreapi",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ToniPetrov03/online-store-api.git"
+  },
+  "description": "API for online store project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --experimental-specifier-resolution=node --experimental-top-level-await server.js",
+    "dev": "nodemon --experimental-specifier-resolution=node --experimental-top-level-await server.js",
+    "migrate": "npx sequelize db:migrate",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^6.1.0"
+  }
+}
