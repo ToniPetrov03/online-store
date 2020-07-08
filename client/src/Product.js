@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-// import CardMedia from '@material-ui/core/CardMedia';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
@@ -25,19 +25,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 function Product({
-  id, name, price,
+  id, name, price, image,
 }) {
   const classes = useStyles();
-
   return (
     <Card className={classes.root}>
       <CardHeader
         title={name}
       />
-      {/* <CardMedia */}
-      {/*  className={classes.media} */}
-      {/*  title={name} */}
-      {/* /> */}
+      <CardMedia
+        className={classes.media}
+        title={name}
+        image={image}
+      />
       <CardContent>
         <Typography paragraph>
           Price:
@@ -70,6 +70,7 @@ Product.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default Product;

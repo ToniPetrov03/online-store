@@ -1,7 +1,7 @@
 import Models from '../models'
 
 export function create(req, res) {
-  const {name, description, price} = req.body;
+  const {name, description, price, img} = req.body;
 
   if (!name) {
     res.status(400).send({
@@ -15,7 +15,19 @@ export function create(req, res) {
     });
   }
 
-  return Models.Product.create({name, description, price})
+  if (!description) {
+    res.status(400).send({
+      message: 'Description cannot be empty.'
+    });
+  }
+
+  if (!img) {
+    res.status(400).send({
+      message: 'Image cannot be empty.'
+    });
+  }
+
+  return Models.Product.create({name, description, price, img})
     .then(data => res.send(data))
     .catch(err => res.status(500).send({
       message: err.message || 'Something went wrong when creating a product.'

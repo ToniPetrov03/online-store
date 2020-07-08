@@ -28,10 +28,13 @@ function Products() {
       justify="center"
     >
       {products.map(({
-        id, name, price,
-      }) => (
-        <Product key={id} id={id} name={name} price={price} />
-      ))}
+        id, name, price, img,
+      }) => {
+        const image = img;
+        console.log(img);
+
+        return <Product key={id} id={id} name={name} price={price} image={image} />
+      })}
     </Grid>
   );
 }

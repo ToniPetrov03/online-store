@@ -5,7 +5,7 @@ export default function (app) {
   const router = express.Router();
   router.post('/', create);
   router.get('/', findAll);
-  router.get('/:id', find)
+  router.get('/:id', find);
 
   app.use('/api/products', router);
 }

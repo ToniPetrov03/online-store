@@ -12,7 +12,8 @@ export default (sequelize, DataTypes, Model) => {
   Product.init({
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    price: DataTypes.FLOAT
+    price: DataTypes.FLOAT,
+    img: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Product',
