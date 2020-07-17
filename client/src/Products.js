@@ -27,22 +27,6 @@ export default function Products() {
 
   const classes = useStyles();
   return (
-<<<<<<< Updated upstream
-    <Grid
-      container
-      className={classes.root}
-      justify="center"
-    >
-      {products.map(({
-        id, name, price, img,
-      }) => {
-        const image = img;
-        console.log(img);
-
-        return <Product key={id} id={id} name={name} price={price} image={image} />
-      })}
-    </Grid>
-=======
     <Container component="main">
       <div className={classes.paper}>
         <Grid
@@ -60,6 +44,5 @@ export default function Products() {
         </Grid>
       </div>
     </Container>
->>>>>>> Stashed changes
   );
 }
