@@ -30,10 +30,10 @@ function Products() {
       {products.map(({
         id, name, price, img,
       }) => {
-        const image = img;
-        console.log(img);
+        const arr = new Uint8Array(img.data);
+        const image = String.fromCharCode.apply(null, arr);
 
-        return <Product key={id} id={id} name={name} price={price} image={image} />
+        return <Product key={id} id={id} name={name} price={price} image={image} />;
       })}
     </Grid>
   );
