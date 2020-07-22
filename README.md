@@ -27,7 +27,7 @@ docker-compose up
 ### 4. Setup complete
 You can now access the application in your browser.
 
-* API - http://localhost:8000/
+* API - http://localhost:4200/
 * CLIENT - http://localhost:3000/
 * Database UI - http://localhost:8080/
 
