@@ -5,7 +5,7 @@ import {
   Route,
   Link,
 } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,6 +19,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import Badge from '@material-ui/core/Badge';
+import amber from '@material-ui/core/colors/amber';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Products from './Products';
 import AddProductForm from './AddProductForm';
 import ProductInfo from './ProductInfo';
@@ -37,7 +41,19 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
+  cart: {
+    color: amber[300],
+  },
 }));
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    top: 7,
+    right: 4,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}))(Badge);
 
 export default function App() {
   const [state, setState] = useState(false);
@@ -78,12 +94,19 @@ export default function App() {
           <Typography variant="h6" className={classes.title} component={Link} to="/products">
             Online store
           </Typography>
-          <Button color="inherit" className={classes.margin} component={Link} to="/sign-in">
-            Sign in
-          </Button>
-          <Button color="inherit" className={classes.margin} component={Link} to="/sign-up">
-            Sign up
-          </Button>
+          <ButtonGroup color="inherit">
+            <Button component={Link} to="/sign-in">
+              Sign in
+            </Button>
+            <Button component={Link} to="/sign-up">
+              Sign up
+            </Button>
+          </ButtonGroup>
+          <IconButton>
+            <StyledBadge badgeContent={0} max={99} color="secondary" showZero>
+              <ShoppingCartOutlinedIcon fontSize="large" aria-label="cart" className={classes.cart} />
+            </StyledBadge>
+          </IconButton>
         </Toolbar>
       </AppBar>
 
