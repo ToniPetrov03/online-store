@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from './constants';
 
-function ProductInfo(x) {
+export default function ProductInfo(x) {
   const [product, setProduct] = useState([]);
 
   useEffect(() => {
@@ -16,5 +16,3 @@ function ProductInfo(x) {
     </div>
   );
 }
-
-export default ProductInfo;

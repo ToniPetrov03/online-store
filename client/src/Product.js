@@ -6,14 +6,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import { amber, green } from '@material-ui/core/colors';
+import { amber, lightGreen } from '@material-ui/core/colors';
 import Typography from '@material-ui/core/Typography';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import Button from '@material-ui/core/Button';
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import { Link } from 'react-router-dom';
-import { Favorite, FavoriteBorder } from '@material-ui/icons';
 import Checkbox from '@material-ui/core/Checkbox';
+import { Favorite, FavoriteBorder } from '@material-ui/icons';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,13 +30,13 @@ const GreenCheckbox = withStyles({
   root: {
     color: amber[300],
     '&$checked': {
-      color: green[700],
+      color: lightGreen[300],
     },
   },
   checked: {},
 })((props) => <Checkbox color="default" {...props} />);
 
-function Product({
+export default function Product({
   id, name, price, image,
 }) {
   const classes = useStyles();
@@ -64,7 +64,6 @@ function Product({
         <Button
           size="small"
           color="primary"
-          variant="outlined"
           component={Link}
           to={`/product-info/${id}`}
         >
@@ -81,5 +80,3 @@ Product.propTypes = {
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
 };
-
-export default Product;

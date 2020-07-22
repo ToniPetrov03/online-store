@@ -6,6 +6,4 @@ COPY package*.json /srv/app/client/
 RUN npm i
 COPY . /srv/app/client
 
-EXPOSE 3000
-
 CMD ["npm", "start"]
