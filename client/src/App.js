@@ -1,40 +1,58 @@
 import React, { useState } from 'react';
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Switch,
   Route,
   Link,
 } from 'react-router-dom';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import MenuIcon from '@material-ui/icons/Menu';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import Badge from '@material-ui/core/Badge';
-import amber from '@material-ui/core/colors/amber';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import {
+  AppBar,
+  CssBaseline,
+  Drawer,
+  ListItemIcon,
+  ListItemText,
+  InputBase,
+  Paper,
+  withStyles,
+  makeStyles,
+  Button,
+  Toolbar,
+  IconButton,
+  Typography,
+  List,
+  ListItem,
+  Badge,
+  ButtonGroup,
+  Divider,
+} from '@material-ui/core'
+import {
+  ShoppingCartOutlined,
+  AddCircle,
+  Menu,
+  Search,
+  Store,
+  AccountCircle,
+  Email,
+  Settings,
+} from '@material-ui/icons'
+import {
+  amber,
+} from '@material-ui/core/colors';
 import Products from './Products';
 import AddProductForm from './AddProductForm';
 import ProductInfo from './ProductInfo';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
+import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
+  grow: {
     flexGrow: 1,
+  },
+  title: {
     textDecoration: 'none',
     color: 'unset',
   },
@@ -43,6 +61,24 @@ const useStyles = makeStyles((theme) => ({
   },
   cart: {
     color: amber[300],
+  },
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    height: 40,
+    marginLeft: theme.spacing(3),
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
+  },
+  iconButton: {
+    padding: 10,
   },
 }));
 
@@ -68,7 +104,7 @@ export default function App() {
 
   const classes = useStyles();
   return (
-    <Router>
+    <BrowserRouter>
       <CssBaseline />
       <AppBar>
         <Toolbar>
@@ -79,21 +115,65 @@ export default function App() {
             aria-label="menu"
             onClick={toggleDrawer(true)}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
             <List className={classes.list}>
+              <Typography variant="h6">
+                Online store
+              </Typography>
+              <Divider />
+              <ListItem button key="home" component={Link} to="/" onClick={toggleDrawer(false)}>
+                <ListItemIcon>
+                  <Store />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItem>
+              <Divider />
+              <ListItem button key="profile" onClick={toggleDrawer(false)}>
+                <ListItemIcon>
+                  <AccountCircle />
+                </ListItemIcon>
+                <ListItemText primary="Profile" />
+              </ListItem>
+              <Divider />
+              <ListItem button key="inbox" onClick={toggleDrawer(false)}>
+                <ListItemIcon>
+                  <Email />
+                </ListItemIcon>
+                <ListItemText primary="Inbox" />
+              </ListItem>
+              <Divider />
               <ListItem button key="add-product" component={Link} to="/add-product" onClick={toggleDrawer(false)}>
                 <ListItemIcon>
-                  <AddCircleOutlineIcon />
+                  <AddCircle />
                 </ListItemIcon>
                 <ListItemText primary="Add product" />
               </ListItem>
+              <Divider />
+              <ListItem button key="settings" onClick={toggleDrawer(false)}>
+                <ListItemIcon>
+                  <Settings />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+              </ListItem>
+              <Divider />
             </List>
           </Drawer>
-          <Typography variant="h6" className={classes.title} component={Link} to="/products">
-            Online store
+          <Typography className={classes.title} variant="h6" component={Link} to="/">
+              Online store
           </Typography>
+          <Paper component="form" className={classes.root} variant="outlined">
+            <InputBase
+              className={classes.input}
+              placeholder="Search..."
+            />
+            <Divider className={classes.divider} orientation="vertical" />
+            <IconButton className={classes.iconButton} aria-label="search">
+              <Search />
+            </IconButton>
+          </Paper>
+          <div className={classes.grow}/>
           <ButtonGroup color="inherit">
             <Button component={Link} to="/sign-in">
               Sign in
@@ -104,19 +184,19 @@ export default function App() {
           </ButtonGroup>
           <IconButton>
             <StyledBadge badgeContent={0} max={99} color="secondary" showZero>
-              <ShoppingCartOutlinedIcon fontSize="large" aria-label="cart" className={classes.cart} />
+              <ShoppingCartOutlined fontSize="large" aria-label="cart" className={classes.cart} />
             </StyledBadge>
           </IconButton>
         </Toolbar>
       </AppBar>
 
       <Switch>
-        <Route path="/products" component={Products} />
         <Route path="/sign-in" component={SignInForm} />
         <Route path="/sign-up" component={SignUpForm} />
         <Route path="/add-product" component={AddProductForm} />
         <Route path="/product-info/:id" component={ProductInfo} />
+        <Route path="/" component={Products} />
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 }

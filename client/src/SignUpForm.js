@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  btn : {
+    textTransform: 'none',
+  }
 }));
 
 export default function SignUp() {
@@ -129,9 +132,9 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Typography color="primary" variant="body2" component={Link} to="/sign-in">
+              <Button color="primary" className={classes.btn} component={Link} to="/sign-in">
                 Already have an account? Sign in
-              </Typography>
+              </Button>
             </Grid>
           </Grid>
         </form>
