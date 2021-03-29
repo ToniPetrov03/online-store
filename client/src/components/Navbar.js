@@ -17,6 +17,7 @@ import {
   ButtonGroup,
   Divider,
   TextField,
+  InputAdornment,
 } from '@material-ui/core'
 import {
   ShoppingCartOutlined,
@@ -53,25 +54,16 @@ const useStyles = makeStyles((theme) => ({
   cart: {
     color: amber[300],
   },
-  root: {
-    display: 'flex',
+  search: {
+    width: 300,
     marginLeft: theme.spacing(3),
   },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
+  searchField: {
+    backgroundColor: 'white',
   },
-  divider: {
-    height: 28,
-    margin: 4,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  search: {
+  searchIcon: {
     cursor: 'pointer',
-    padding: '17px'
-  }
+  },
 }));
 
 const StyledBadge = withStyles((theme) => ({
@@ -164,24 +156,31 @@ export default function Navbar() {
         <Typography className={classes.title} variant="h6" component={Link} to="/">
           Online store
         </Typography>
-        <div className={classes.root}>
-          <Autocomplete
-            freeSolo
-            style={{ width: 300 }}
-            options={results.map((option) => option.name)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder="Search..."
-                margin="normal"
-                variant="outlined"
-                onChange={(e) => setSearchTerm(e.target.value)}
-
-              />
-            )}
-          />
-          <Search className={classes.search}/>
-        </div>
+        <Autocomplete
+          freeSolo
+          disableClearable
+          size="small"
+          className={classes.search}
+          options={results.map((option) => option.name)}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Search..."
+              margin="normal"
+              variant="outlined"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                ...params.InputProps,
+                className: classes.searchField,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Search className={classes.searchIcon}/>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
         <div className={classes.grow}/>
         <ButtonGroup color="inherit">
           <Button component={Link} to="/sign-in">
