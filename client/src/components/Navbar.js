@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchField: {
     backgroundColor: 'white',
+    marginTop: -8,
   },
   searchIcon: {
     cursor: 'pointer',
