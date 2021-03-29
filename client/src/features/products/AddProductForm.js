@@ -61,9 +61,9 @@ export default function AddProductForm() {
     // get s3 url from backend
     // upload to that url
     // get url
-    const img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG'
+    const img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG';
 
-    setProductInfo({ ...productInfo, img })
+    setProductInfo({ ...productInfo, img });
   };
 
   const handleSubmit = (e) => {

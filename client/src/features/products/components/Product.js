@@ -4,7 +4,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import CardActions from '@material-ui/core/CardActions';
 import { amber, lightGreen } from '@material-ui/core/colors';
@@ -56,13 +55,15 @@ export default function Product({
     <Card elevation={3} className={classes.root}>
       <CardHeader
         title={name}
-        action={<Button
-          size="small"
-          color="secondary"
-          variant="outlined"
+        action={(
+          <Button
+            size="small"
+            color="secondary"
+            variant="outlined"
           >
-          Buy now
-        </Button>}
+            Buy now
+          </Button>
+)}
       />
       <CardMedia
         className={classes.media}
@@ -70,11 +71,12 @@ export default function Product({
         image={image}
       />
       <Typography variant="h5" paragraph className={classes.price}>
-        ${price}
+        $
+        {price}
       </Typography>
       <Divider variant="middle" />
       <CardActions disableSpacing>
-        <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />}/>
+        <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
         <GreenCheckbox icon={<AddShoppingCartIcon />} checkedIcon={<RemoveShoppingCartIcon />} />
         <Button
           size="small"

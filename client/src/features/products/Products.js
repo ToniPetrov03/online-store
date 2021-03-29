@@ -36,9 +36,7 @@ export default function Products() {
         >
           {products.map(({
             id, name, price, img,
-          }) => {
-            return <Product key={id} id={id} name={name} price={price} image={img} />;
-          })}
+          }) => <Product key={id} id={id} name={name} price={price} image={img} />)}
         </Grid>
       </div>
     </Container>
