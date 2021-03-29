@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     '&:hover': {
       textDecoration: 'underline',
-    }
+    },
   },
 }));
 
@@ -23,13 +23,13 @@ export default function StickyFooter() {
   const classes = useStyles();
 
   return (
-      <footer className={classes.footer}>
-        <Container maxWidth="sm">
-          <Typography variant="body1">Footer</Typography>
-          <Typography variant="body2" color="textSecondary" component={Link} to="/" className={classes.link}>
-            Online store
-          </Typography>
-        </Container>
-      </footer>
+    <footer className={classes.footer}>
+      <Container maxWidth="sm">
+        <Typography variant="body1">Footer</Typography>
+        <Typography variant="body2" color="textSecondary" component={Link} to="/" className={classes.link}>
+          Online store
+        </Typography>
+      </Container>
+    </footer>
   );
 }

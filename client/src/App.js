@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {
   CssBaseline,
-} from '@material-ui/core'
+} from '@material-ui/core';
 import Navbar from './components/Navbar';
 import Products from './features/products/Products';
 import AddProductForm from './features/products/AddProductForm';

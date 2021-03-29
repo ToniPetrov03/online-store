@@ -18,7 +18,7 @@ import {
   Divider,
   TextField,
   InputAdornment,
-} from '@material-ui/core'
+} from '@material-ui/core';
 import {
   ShoppingCartOutlined,
   AddCircle,
@@ -28,14 +28,14 @@ import {
   AccountCircle,
   Email,
   Settings,
-} from '@material-ui/icons'
+} from '@material-ui/icons';
 import {
   amber,
 } from '@material-ui/core/colors';
-import useDebounce from '../hooks/use-debounce';
-import { API_URL } from '../constants';
 import axios from 'axios';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import useDebounce from '../hooks/use-debounce';
+import { API_URL } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -76,14 +76,14 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   useEffect(() => {
     if (debouncedSearchTerm) {
-      axios.get(`${API_URL}/products?name=${searchTerm}`).then(results => setResults(results.data));
+      axios.get(`${API_URL}/products?name=${searchTerm}`).then((r) => setResults(r.data));
     } else {
       setResults([]);
     }
@@ -94,7 +94,7 @@ export default function Navbar() {
       return;
     }
 
-    setOpen(open);
+    setIsOpen(open);
   };
 
   const classes = useStyles();
@@ -108,49 +108,49 @@ export default function Navbar() {
           aria-label="menu"
           onClick={toggleDrawer(true)}
         >
-          <Menu/>
+          <Menu />
         </IconButton>
-        <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
+        <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
           <List className={classes.list}>
             <Typography variant="h6">
               Online store
             </Typography>
-            <Divider/>
+            <Divider />
             <ListItem button key="home" component={Link} to="/" onClick={toggleDrawer(false)}>
               <ListItemIcon>
-                <Store/>
+                <Store />
               </ListItemIcon>
-              <ListItemText primary="Home"/>
+              <ListItemText primary="Home" />
             </ListItem>
-            <Divider/>
+            <Divider />
             <ListItem button key="profile" onClick={toggleDrawer(false)}>
               <ListItemIcon>
-                <AccountCircle/>
+                <AccountCircle />
               </ListItemIcon>
-              <ListItemText primary="Profile"/>
+              <ListItemText primary="Profile" />
             </ListItem>
-            <Divider/>
+            <Divider />
             <ListItem button key="inbox" onClick={toggleDrawer(false)}>
               <ListItemIcon>
-                <Email/>
+                <Email />
               </ListItemIcon>
-              <ListItemText primary="Inbox"/>
+              <ListItemText primary="Inbox" />
             </ListItem>
-            <Divider/>
+            <Divider />
             <ListItem button key="add-product" component={Link} to="/add-product" onClick={toggleDrawer(false)}>
               <ListItemIcon>
-                <AddCircle/>
+                <AddCircle />
               </ListItemIcon>
-              <ListItemText primary="Add product"/>
+              <ListItemText primary="Add product" />
             </ListItem>
-            <Divider/>
+            <Divider />
             <ListItem button key="settings" onClick={toggleDrawer(false)}>
               <ListItemIcon>
-                <Settings/>
+                <Settings />
               </ListItemIcon>
-              <ListItemText primary="Settings"/>
+              <ListItemText primary="Settings" />
             </ListItem>
-            <Divider/>
+            <Divider />
           </List>
         </Drawer>
         <Typography className={classes.title} variant="h6" component={Link} to="/">
@@ -174,14 +174,14 @@ export default function Navbar() {
                 className: classes.searchField,
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Search className={classes.searchIcon}/>
+                    <Search className={classes.searchIcon} />
                   </InputAdornment>
                 ),
               }}
             />
           )}
         />
-        <div className={classes.grow}/>
+        <div className={classes.grow} />
         <ButtonGroup color="inherit">
           <Button component={Link} to="/sign-in">
             Sign in
@@ -192,10 +192,10 @@ export default function Navbar() {
         </ButtonGroup>
         <IconButton>
           <StyledBadge badgeContent={0} max={99} color="secondary" showZero>
-            <ShoppingCartOutlined fontSize="large" aria-label="cart" className={classes.cart}/>
+            <ShoppingCartOutlined fontSize="large" aria-label="cart" className={classes.cart} />
           </StyledBadge>
         </IconButton>
       </Toolbar>
     </AppBar>
-  )
+  );
 }
