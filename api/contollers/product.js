@@ -1,4 +1,5 @@
 import Models from '../models'
+import Sequelize from 'sequelize';
 
 export function create(req, res) {
   const {name, description, price, img} = req.body;
@@ -35,7 +36,13 @@ export function create(req, res) {
 }
 
 export function findAll(req, res) {
-  return Models.Product.findAll()
+  return Models.Product.findAll({
+    where: {
+      name: {
+        [Sequelize.Op.substring]: req.query.name || ''
+      }
+    }
+  })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({
       message: err.message || 'Something went wrong when finding all products.'

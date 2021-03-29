@@ -3,8 +3,8 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { API_URL } from './constants';
-import Product from './Product';
+import { API_URL } from '../../constants';
+import Product from './components/Product';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,9 +37,7 @@ export default function Products() {
           {products.map(({
             id, name, price, img,
           }) => {
-            const image = String.fromCharCode.apply(null, new Uint8Array(img.data));
-
-            return <Product key={id} id={id} name={name} price={price} image={image} />;
+            return <Product key={id} id={id} name={name} price={price} image={img} />;
           })}
         </Grid>
       </div>
