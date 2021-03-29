@@ -74,7 +74,7 @@ export default function Product({
       </Typography>
       <Divider variant="middle" />
       <CardActions disableSpacing>
-        <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} className={classes.a}/>
+        <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />}/>
         <GreenCheckbox icon={<AddShoppingCartIcon />} checkedIcon={<RemoveShoppingCartIcon />} />
         <Button
           size="small"

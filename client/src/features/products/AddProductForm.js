@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import lightGreen from '@material-ui/core/colors/lightGreen';
-import { API_URL } from './constants';
+import { API_URL } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

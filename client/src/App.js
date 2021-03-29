@@ -7,13 +7,13 @@ import {
 import {
   CssBaseline,
 } from '@material-ui/core'
-import Navbar from './Navbar';
-import Products from './Products';
-import AddProductForm from './AddProductForm';
-import ProductInfo from './ProductInfo';
-import SignInForm from './SignInForm';
-import SignUpForm from './SignUpForm';
-import Footer from './Footer';
+import Navbar from './components/Navbar';
+import Products from './features/products/Products';
+import AddProductForm from './features/products/AddProductForm';
+import ProductInfo from './features/products/ProductInfo';
+import SignInForm from './features/registration/SignInForm';
+import SignUpForm from './features/registration/SignUpForm';
+import Footer from './components/Footer';
 
 export default function App() {
   return (

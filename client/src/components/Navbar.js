@@ -5,8 +5,6 @@ import {
   Drawer,
   ListItemIcon,
   ListItemText,
-  InputBase,
-  Paper,
   withStyles,
   makeStyles,
   Button,
@@ -33,8 +31,8 @@ import {
 import {
   amber,
 } from '@material-ui/core/colors';
-import useDebounce from './use-debounce';
-import { API_URL } from './constants';
+import useDebounce from '../hooks/use-debounce';
+import { API_URL } from '../constants';
 import axios from 'axios';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
@@ -166,7 +164,6 @@ export default function Navbar() {
         <Typography className={classes.title} variant="h6" component={Link} to="/">
           Online store
         </Typography>
-        {/*<Paper component="form" className={classes.root} variant="outlined">*/}
         <div className={classes.root}>
           <Autocomplete
             freeSolo
@@ -185,12 +182,6 @@ export default function Navbar() {
           />
           <Search className={classes.search}/>
         </div>
-
-        {/*<Divider className={classes.divider} orientation="vertical"/>*/}
-        {/*  <IconButton className={classes.iconButton} aria-label="search">*/}
-        {/*    <Search/>*/}
-        {/*  </IconButton>*/}
-        {/*</Paper>*/}
         <div className={classes.grow}/>
         <ButtonGroup color="inherit">
           <Button component={Link} to="/sign-in">
