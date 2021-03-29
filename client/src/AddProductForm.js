@@ -58,13 +58,12 @@ export default function AddProductForm() {
   const handleChange = (e) => setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
 
   const handleImgChange = (e) => {
-    const [file] = e.target.files;
+    // get s3 url from backend
+    // upload to that url
+    // get url
+    const img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG'
 
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.addEventListener('load', () => setProductInfo({ ...productInfo, img: reader.result }));
-    reader.readAsDataURL(file);
+    setProductInfo({ ...productInfo, img })
   };
 
   const handleSubmit = (e) => {
