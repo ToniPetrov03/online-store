@@ -13,7 +13,6 @@ import AddProductForm from './features/products/AddProductForm';
 import ProductInfo from './features/products/ProductInfo';
 import SignInForm from './features/registration/SignInForm';
 import SignUpForm from './features/registration/SignUpForm';
-import Footer from './components/Footer';
 
 export default function App() {
   return (

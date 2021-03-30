@@ -27,6 +27,7 @@
     "react/jsx-filename-extension": "off",
     "import/prefer-default-export": "off",
     "max-len": ["error", 120],
-    "jsx-a11y/label-has-associated-control": "off"
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }
