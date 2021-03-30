@@ -20,19 +20,31 @@ const useStyles = makeStyles((theme) => ({
     height: 345,
     width: 260,
   },
+  cardHeader: {
+    margin: theme.spacing(2),
+    width: 200,
+  },
   media: {
     height: 0,
-    paddingTop: '64%',
+    paddingTop: '67%',
   },
   price: {
     textAlign: 'center',
     marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   details: {
-    marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
+    marginLeft: 'auto',
+    marginRight: theme.spacing(1),
+  },
+  title: {
+    whiteSpace: 'nowrap',
+    width: '140px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 }));
 
@@ -46,9 +58,11 @@ const GreenCheckbox = withStyles({
   checked: {},
 })((props) => <Checkbox color="default" {...props} />);
 
-export default function Product({
-  id, name, price, image,
-}) {
+export default function Product(
+  {
+    id, name, price, image,
+  },
+) {
   const classes = useStyles();
 
   return (
@@ -63,7 +77,10 @@ export default function Product({
           >
             Buy now
           </Button>
-)}
+        )}
+        titleTypographyProps={{
+          className: classes.title,
+        }}
       />
       <CardMedia
         className={classes.media}
