@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { API_URL } from '../../constants';
-import Product from './components/Product';
+import Product from './Product';
 
 const useStyles = makeStyles((theme) => ({
   root: {

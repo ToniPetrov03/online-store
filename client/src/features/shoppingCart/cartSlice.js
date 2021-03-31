@@ -13,7 +13,7 @@ export default function shoppingCartReducer(state = initialState, action) {
     case 'shoppingCart/Remove': {
       return {
         ...state,
-        items: state.items.filter((item) => item !== action.payload),
+        items: state.items.filter((item) => item.id !== action.payload.id),
       };
     }
     default: {

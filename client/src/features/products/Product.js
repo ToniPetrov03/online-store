@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
-import store from '../../../store';
+import store from '../../store';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,16 +59,19 @@ const GreenCheckbox = withStyles({
   checked: {},
 })((props) => <Checkbox color="default" {...props} />);
 
-export default function Product(
-  {
+export default function Product(product) {
+  const {
     id, name, price, image,
-  },
-) {
+  } = product;
+
   const classes = useStyles();
 
   const [addProduct, setAddProduct] = useState(true);
   const onChange = () => {
-    store.dispatch({ type: `shoppingCart/${addProduct ? 'Add' : 'Remove'}`, payload: id });
+    store.dispatch({
+      type: `shoppingCart/${addProduct ? 'Add' : 'Remove'}`,
+      payload: product,
+    });
 
     setAddProduct(!addProduct);
   };
@@ -123,8 +126,10 @@ export default function Product(
 }
 
 Product.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+  }).isRequired,
 };
