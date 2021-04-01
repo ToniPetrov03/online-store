@@ -1,32 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { API_URL } from '../../constants';
 
 const initialState = {
   items: [],
-  selectedItemId: null,
+  selectedProductId: null,
   status: 'idle',
   error: null,
 };
 
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
+  const res = await axios.get(`${API_URL}/products`);
+  return res.data;
+});
+export const addToCart = createAsyncThunk('products/addToCart', () => axios.get(`${API_URL}/products`));
+
 const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {
-    productAdded: {
-      reducer(state, action) {
-        state.items.push(action.payload);
-      },
+  extraReducers: {
+    [fetchProducts.pending]: (state) => {
+      state.status = 'loading';
     },
-    selectItemId: {
-      reducer(state, action) {
-        state.selectedItemId = action.payload;
-      },
+    [fetchProducts.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      state.status = 'succeeded';
+      state.items = state.items.concat(action.payload);
+    },
+    [fetchProducts.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
     },
   },
 });
 
 export default productsSlice.reducer;
 
-export const selectAllProducts = (state) => state.products;
-
-export const selectPostById = (state, postId) =>
-  state.posts.find(post => post.id === postId)
+export const selectAll = (state) => state.products.items;
+export const selectStatus = (state) => state.products.status;
+export const selectError = (state) => state.products.error;

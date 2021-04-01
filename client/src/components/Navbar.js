@@ -34,7 +34,6 @@ import {
 } from '@material-ui/core/colors';
 import axios from 'axios';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useSelector } from 'react-redux';
 import useDebounce from '../hooks/use-debounce';
 import { API_URL } from '../constants';
 
@@ -99,7 +98,6 @@ export default function Navbar() {
     setIsOpen(open);
   };
 
-  const items = useSelector((state) => state.shoppingCart.items);
   const classes = useStyles();
   return (
     <AppBar>
@@ -194,7 +192,7 @@ export default function Navbar() {
           </Button>
         </ButtonGroup>
         <IconButton>
-          <StyledBadge badgeContent={items.length} max={99} color="secondary" showZero>
+          <StyledBadge badgeContent={0} max={99} color="secondary" showZero>
             <ShoppingCartOutlined fontSize="large" aria-label="cart" className={classes.cart} />
           </StyledBadge>
         </IconButton>

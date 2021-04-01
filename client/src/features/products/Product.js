@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
-import store from '../../store';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,16 +63,6 @@ export default function Product({
 }) {
   const classes = useStyles();
 
-  const [addedToCart, setAddedToCart] = useState(true);
-  const onChange = () => {
-    store.dispatch({
-      type: `shoppingCart/${addedToCart ? 'Add' : 'Remove'}`,
-      payload: props,
-    });
-
-    setAddedToCart(!addedToCart);
-  };
-
   return (
     <Card elevation={3} className={classes.root}>
       <CardHeader
@@ -104,8 +93,6 @@ export default function Product({
       <CardActions disableSpacing>
         <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
         <GreenCheckbox
-          checked={addedToCart}
-          onChange={onChange}
           icon={<RemoveShoppingCartIcon />}
           checkedIcon={<AddShoppingCartIcon />}
         />

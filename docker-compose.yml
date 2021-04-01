@@ -13,6 +13,7 @@ services:
       - REACT_APP_API_PORT=${API_PORT}
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
+      - ESLINT_NO_DEV_ERRORS=true
     ports:
       - ${CLIENT_PORT}:${CLIENT_PORT}
     volumes:
