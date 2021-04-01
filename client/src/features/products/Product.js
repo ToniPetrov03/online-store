@@ -59,21 +59,19 @@ const GreenCheckbox = withStyles({
   checked: {},
 })((props) => <Checkbox color="default" {...props} />);
 
-export default function Product(product) {
-  const {
-    id, name, price, image,
-  } = product;
-
+export default function Product({
+  id, name, price, image,
+}) {
   const classes = useStyles();
 
-  const [addProduct, setAddProduct] = useState(true);
+  const [addedToCart, setAddedToCart] = useState(true);
   const onChange = () => {
     store.dispatch({
-      type: `shoppingCart/${addProduct ? 'Add' : 'Remove'}`,
-      payload: product,
+      type: `shoppingCart/${addedToCart ? 'Add' : 'Remove'}`,
+      payload: props,
     });
 
-    setAddProduct(!addProduct);
+    setAddedToCart(!addedToCart);
   };
 
   return (
@@ -106,9 +104,10 @@ export default function Product(product) {
       <CardActions disableSpacing>
         <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
         <GreenCheckbox
+          checked={addedToCart}
           onChange={onChange}
-          icon={<AddShoppingCartIcon />}
-          checkedIcon={<RemoveShoppingCartIcon />}
+          icon={<RemoveShoppingCartIcon />}
+          checkedIcon={<AddShoppingCartIcon />}
         />
         <Button
           size="small"
@@ -126,10 +125,8 @@ export default function Product(product) {
 }
 
 Product.propTypes = {
-  product: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }).isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
 };

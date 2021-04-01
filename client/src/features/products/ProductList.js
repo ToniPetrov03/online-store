@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useSelector } from 'react-redux';
 import { API_URL } from '../../constants';
 import Product from './Product';
 
@@ -18,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Products() {
-  const [products, setProducts] = useState([]);
+export default function ProductList() {
+  const products = useSelector((state) => state.products);
 
   useEffect(() => {
     axios.get(`${API_URL}/products`).then((res) => setProducts(res.data));
