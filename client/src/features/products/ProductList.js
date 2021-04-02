@@ -36,14 +36,20 @@ export default function ProductList() {
 
   let content;
 
-  if (status === 'loading') {
-    content = <div className="loader">Loading...</div>;
-  } else if (status === 'succeeded') {
-    content = products.map(({
-      id, name, price, img,
-    }) => <Product key={id} id={id} name={name} price={price} image={img} />);
-  } else if (status === 'failed') {
+  if (status === 'failed') {
     content = <div>{error}</div>;
+  } else {
+    content = (products.length ? products : [...new Array(12)])
+      .map((product, index) => (
+        <Product
+          key={product?.id || index}
+          id={product?.id}
+          name={product?.name}
+          price={product?.price}
+          image={product?.img}
+          loading={status === 'loading'}
+        />
+      ));
   }
 
   return (

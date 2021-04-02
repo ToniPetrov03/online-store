@@ -23,7 +23,6 @@ const productsSlice = createSlice({
       state.status = 'loading';
     },
     [fetchProducts.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.status = 'succeeded';
       state.items = state.items.concat(action.payload);
     },
