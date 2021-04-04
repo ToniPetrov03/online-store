@@ -11,9 +11,10 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import lightGreen from '@material-ui/core/colors/lightGreen';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { addNewProduct } from './productsSlice';
+import { CircularProgress } from '@material-ui/core';
+import { addNewProduct, selectStatus } from './productsSlice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,40 +50,48 @@ const useStyles = makeStyles((theme) => ({
   style: {
     color: lightGreen,
   },
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  buttonWrapper: {
+    position: 'relative',
+  },
 }));
 
 export default function AddProductForm() {
+  const loading = useSelector(selectStatus) === 'loading';
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [img, setImg] = useState('');
-  const [addRequestStatus, setAddRequestStatus] = useState('idle');
-
-  const canSave = [name, description, price].every(Boolean) && addRequestStatus === 'idle';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (canSave) {
-      try {
-        setAddRequestStatus('pending');
-        const resultAction = await dispatch(
-          addNewProduct({
-            name, description, price, img,
-          }),
-        );
-        unwrapResult(resultAction);
-        setName('');
-        setDescription('');
-        setPrice('');
-        setImg('');
-      } catch (err) {
-        console.error('Failed to add product: ', err);
-      } finally {
-        setAddRequestStatus('idle');
-      }
+    try {
+      const resultAction = await dispatch(
+        addNewProduct({
+          name, description, price, img,
+        }),
+      );
+      unwrapResult(resultAction);
+      setName('');
+      setDescription('');
+      setPrice('');
+      setImg('');
+    } catch (err) {
+      // TODO: toaster
+      console.error('Failed to add product: ', err);
     }
   };
 
@@ -192,16 +201,17 @@ export default function AddProductForm() {
                 <Grid item />
                 <Grid item />
               </Grid>
-              <Grid container spacing={1}>
-                <Grid item>
+              <Grid container spacing={1} className={classes.root}>
+                <Grid item className={classes.buttonWrapper}>
                   <Button
                     variant="contained"
                     type="submit"
                     color="primary"
-                    className={classes.submit}
+                    disabled={loading}
                   >
                     Add
                   </Button>
+                  {loading && <CircularProgress size={24} className={classes.buttonProgress} color="primary" />}
                 </Grid>
                 <Grid item>
                   <Button
