@@ -14,7 +14,6 @@ import lightGreen from '@material-ui/core/colors/lightGreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { CircularProgress } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
 import { addNewProduct, selectStatus } from './productsSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -75,31 +74,24 @@ export default function AddProductForm() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [img, setImg] = useState('');
-  const [addRequestStatus, setAddRequestStatus] = useState('idle');
-
-  const canSave = [name, description, price].every(Boolean) && addRequestStatus === 'idle';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (canSave) {
-      try {
-        setAddRequestStatus('pending');
-        const resultAction = await dispatch(
-          addNewProduct({
-            name, description, price, img,
-          }),
-        );
-        unwrapResult(resultAction);
-        setName('');
-        setDescription('');
-        setPrice('');
-        setImg('');
-      } catch (err) {
-        console.error('Failed to add product: ', err);
-      } finally {
-        setAddRequestStatus('idle');
-      }
+    try {
+      const resultAction = await dispatch(
+        addNewProduct({
+          name, description, price, img,
+        }),
+      );
+      unwrapResult(resultAction);
+      setName('');
+      setDescription('');
+      setPrice('');
+      setImg('');
+    } catch (err) {
+      // TODO: toaster
+      console.error('Failed to add product: ', err);
     }
   };
 
