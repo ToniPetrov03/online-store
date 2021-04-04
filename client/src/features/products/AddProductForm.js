@@ -2,20 +2,24 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import CardMedia from '@material-ui/core/CardMedia';
-import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import CardContent from '@material-ui/core/CardContent';
-import lightGreen from '@material-ui/core/colors/lightGreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { CircularProgress } from '@material-ui/core';
+import { FilePond, registerPlugin } from 'react-filepond';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import { useSnackbar } from 'notistack';
 import { addNewProduct, selectStatus } from './productsSlice';
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,29 +36,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginTop: theme.spacing(2.6),
   },
-  input: {
-    display: 'none',
-  },
-  media: {
-    height: 253,
-    width: 215,
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-  style: {
-    color: lightGreen,
-  },
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-  },
   buttonProgress: {
     position: 'absolute',
     top: '50%',
@@ -65,17 +46,26 @@ const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
     position: 'relative',
   },
+  filepond: {
+    marginBottom: 0,
+  },
 }));
 
 export default function AddProductForm() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const classes = useStyles();
   const loading = useSelector(selectStatus) === 'loading';
   const dispatch = useDispatch();
 
+  const maxFiles = 5;
+  const labelIdleHtml = '<em style="color: blue; text-decoration: underline; cursor: pointer">upload</em>';
+  const initialLabelIdle = `You have to ${labelIdleHtml} at least one image.`;
+
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [img, setImg] = useState('');
+  const [description, setDescription] = useState('');
+  const [files, setFiles] = useState([]);
+  const [labelIdle, setLabelIdle] = useState(initialLabelIdle);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,7 +75,7 @@ export default function AddProductForm() {
     try {
       const resultAction = await dispatch(
         addNewProduct({
-          name, description, price, img,
+          name, description, price, files,
         }),
       );
       unwrapResult(resultAction);
@@ -93,7 +83,7 @@ export default function AddProductForm() {
       setName('');
       setDescription('');
       setPrice('');
-      setImg('');
+      setFiles([]);
     } catch (err) {
       enqueueSnackbar('Failed to add product', { variant: 'error' });
       console.error(err);
@@ -102,22 +92,19 @@ export default function AddProductForm() {
     closeSnackbar(key);
   };
 
-  const onImgChanged = () => {
-    // get s3 url from backend
-    // upload to that url
-    // get url
+  const onNameChanged = (e) => setName(e.target.value);
+  const onPriceChanged = (e) => setPrice(e.target.value);
+  const onDescriptionChanged = (e) => setDescription(e.target.value);
+  const onUpdateFiles = (fileItems) => {
+    setFiles(fileItems.map(({ file }) => file));
 
-    setImg('https://upload.wikimedia.org/wikipedia/'
-      + 'commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG');
+    const leftFiles = maxFiles - fileItems.length;
+
+    setLabelIdle(fileItems.length
+      ? `You can ${labelIdleHtml} ${leftFiles} more image${leftFiles > 1 ? 's' : ''}.`
+      : initialLabelIdle);
   };
 
-  const onNameChanged = (e) => setName(e.target.value);
-  const onDescriptionChanged = (e) => setDescription(e.target.value);
-  const onPriceChanged = (e) => setPrice(e.target.value);
-
-  const onCancelBtnClick = () => window.history.back();
-
-  const classes = useStyles();
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -172,65 +159,34 @@ export default function AddProductForm() {
                 value={description}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2} justify="space-between">
-            <Grid item xs={12} sm={6}>
-              <Card elevation={2} className={classes.media}>
-                {img ? (
-                  <CardMedia className={classes.media} image={img} />
-                ) : (
-                  <CardContent>
-                    <Typography variant="h5" component="h2">
-                      No image
-                    </Typography>
-                  </CardContent>
-                )}
-              </Card>
+            <Grid item xs={12}>
+              <FilePond
+                allowMultiple
+                allowReorder
+                dropOnPage
+                required
+                credits
+                maxFiles={maxFiles}
+                files={files}
+                className={classes.filepond}
+                onupdatefiles={onUpdateFiles}
+                acceptedFileTypes={['image/*']}
+                labelIdle={labelIdle}
+                labelFileProcessing
+                labelFileLoading
+              />
             </Grid>
-            <Grid item>
-              <Grid container direction="column" spacing={10}>
-                <Grid item>
-                  <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="contained-button-file"
-                    type="file"
-                    onChange={onImgChanged}
-                  />
-                  <label htmlFor="contained-button-file">
-                    <Button variant="outlined" color="primary" component="span" size="small">
-                      {img ? 'Change' : 'Choose'}
-                      {' '}
-                      image
-                    </Button>
-                  </label>
-                </Grid>
-                <Grid item />
-                <Grid item />
-              </Grid>
-              <Grid container spacing={1} className={classes.root}>
-                <Grid item className={classes.buttonWrapper}>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    color="primary"
-                    disabled={loading}
-                  >
-                    Add
-                  </Button>
-                  {loading && <CircularProgress size={24} className={classes.buttonProgress} color="primary" />}
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    className={classes.submit}
-                    onClick={onCancelBtnClick}
-                  >
-                    Cancel
-                  </Button>
-                </Grid>
-              </Grid>
+            <Grid item container justify="flex-end">
+              <Button
+                className={classes.buttonWrapper}
+                variant="contained"
+                type="submit"
+                color="primary"
+                disabled={loading}
+              >
+                Add
+              </Button>
+              {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Grid>
           </Grid>
         </form>

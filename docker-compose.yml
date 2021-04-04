@@ -16,6 +16,9 @@ services:
       - ESLINT_NO_DEV_ERRORS=true
     ports:
       - ${CLIENT_PORT}:${CLIENT_PORT}
+    volumes:
+      - ./client:/srv/app/client
+      - /srv/app/client/node_modules
     links:
       - api
   api:
@@ -32,6 +35,9 @@ services:
       - PORT=${API_PORT}
     ports:
       - ${API_PORT}:${API_PORT}
+    volumes:
+      - ./api:/srv/app/api
+      - /srv/app/api/node_modules
     links:
       - mysql
   phpmyadmin:

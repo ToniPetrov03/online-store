@@ -16,8 +16,21 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async ()
 
 export const addToCart = createAsyncThunk('products/addToCart', () => axios.get(`${API_URL}/products`));
 
-export const addNewProduct = createAsyncThunk('posts/addNewProduct', async (productInfo) => {
-  const res = await axios.post(`${API_URL}/products`, productInfo);
+export const addNewProduct = createAsyncThunk('posts/addNewProduct', async (product) => {
+  const { files } = product;
+  console.log(files);
+  product.imgs = files.map((file) => {
+    // get s3 url from backend
+    // upload to that url
+    // get url
+    const url = 'https://upload.wikimedia.org/wikipedia/'
+      + 'commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG';
+    const { name } = file;
+    return { url, name };
+  });
+  delete product.files;
+
+  const res = await axios.post(`${API_URL}/products`, product);
   return res.data;
 });
 
