@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -12,7 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import lightGreen from '@material-ui/core/colors/lightGreen';
-import { API_URL } from '../../constants';
+import { useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { addNewProduct } from './productsSlice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,26 +52,52 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddProductForm() {
-  const [productInfo, setProductInfo] = useState({
-    name: '', description: '', price: 0, img: '',
-  });
+  const dispatch = useDispatch();
 
-  const handleChange = (e) => setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [img, setImg] = useState('');
+  const [addRequestStatus, setAddRequestStatus] = useState('idle');
 
-  const handleImgChange = () => {
+  const canSave = [name, description, price].every(Boolean) && addRequestStatus === 'idle';
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (canSave) {
+      try {
+        setAddRequestStatus('pending');
+        const resultAction = await dispatch(
+          addNewProduct({
+            name, description, price, img,
+          }),
+        );
+        unwrapResult(resultAction);
+        setName('');
+        setDescription('');
+        setPrice('');
+        setImg('');
+      } catch (err) {
+        console.error('Failed to add product: ', err);
+      } finally {
+        setAddRequestStatus('idle');
+      }
+    }
+  };
+
+  const onImgChanged = () => {
     // get s3 url from backend
     // upload to that url
     // get url
-    const img = 'https://upload.wikimedia.org/wikipedia/'
-      + 'commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG';
 
-    setProductInfo({ ...productInfo, img });
+    setImg('https://upload.wikimedia.org/wikipedia/'
+      + 'commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios.post(`${API_URL}/products`, productInfo);
-  };
+  const onNameChanged = (e) => setName(e.target.value);
+  const onDescriptionChanged = (e) => setDescription(e.target.value);
+  const onPriceChanged = (e) => setPrice(e.target.value);
 
   const onCancelBtnClick = () => window.history.back();
 
@@ -95,7 +122,8 @@ export default function AddProductForm() {
                 required
                 fullWidth
                 name="name"
-                onChange={handleChange}
+                onChange={onNameChanged}
+                value={name}
                 autoFocus
               />
             </Grid>
@@ -109,7 +137,8 @@ export default function AddProductForm() {
                 fullWidth
                 type="number"
                 name="price"
-                onChange={handleChange}
+                onChange={onPriceChanged}
+                value={price}
               />
             </Grid>
             <Grid item xs={12}>
@@ -123,15 +152,16 @@ export default function AddProductForm() {
                 fullWidth
                 variant="outlined"
                 name="description"
-                onChange={handleChange}
+                onChange={onDescriptionChanged}
+                value={description}
               />
             </Grid>
           </Grid>
           <Grid container spacing={2} justify="space-between">
             <Grid item xs={12} sm={6}>
               <Card elevation={2} className={classes.media}>
-                {productInfo.img ? (
-                  <CardMedia className={classes.media} image={productInfo.img} />
+                {img ? (
+                  <CardMedia className={classes.media} image={img} />
                 ) : (
                   <CardContent>
                     <Typography variant="h5" component="h2">
@@ -149,11 +179,11 @@ export default function AddProductForm() {
                     className={classes.input}
                     id="contained-button-file"
                     type="file"
-                    onChange={handleImgChange}
+                    onChange={onImgChanged}
                   />
                   <label htmlFor="contained-button-file">
                     <Button variant="outlined" color="primary" component="span" size="small">
-                      {productInfo.img ? 'Change' : 'Choose'}
+                      {img ? 'Change' : 'Choose'}
                       {' '}
                       image
                     </Button>
