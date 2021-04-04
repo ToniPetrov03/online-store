@@ -17,7 +17,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2020,
     "sourceType": "module"
   },
   "plugins": [
@@ -25,6 +25,8 @@
   ],
   "rules": {
     "react/jsx-filename-extension": "off",
+    "react/require-default-props": "off",
+    "no-param-reassign": ["error", { "props": false }],
     "import/prefer-default-export": "off",
     "max-len": ["error", 120],
     "jsx-a11y/label-has-associated-control": "off",

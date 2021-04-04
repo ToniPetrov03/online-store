@@ -8,7 +8,7 @@ import {
   CssBaseline,
 } from '@material-ui/core';
 import Navbar from './components/Navbar';
-import Products from './features/products/Products';
+import ProductList from './features/products/ProductList';
 import AddProductForm from './features/products/AddProductForm';
 import ProductInfo from './features/products/ProductInfo';
 import SignInForm from './features/registration/SignInForm';
@@ -25,7 +25,7 @@ export default function App() {
         <Route path="/sign-up" component={SignUpForm} />
         <Route path="/add-product" component={AddProductForm} />
         <Route path="/product-info/:id" component={ProductInfo} />
-        <Route path="/" component={Products} />
+        <Route path="/" component={ProductList} />
       </Switch>
     </BrowserRouter>
   );
