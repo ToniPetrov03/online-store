@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import db from './models';
 import productRoute from './routes/product.js'
+import waitForDbConnection from './utils/wait-for-db-connection'
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+await waitForDbConnection(db.sequelize, 1000)
 
 db.sequelize.sync();
 
