@@ -10,15 +10,12 @@ services:
       - ${CLIENT_PORT}
     environment:
       - CLIENT_PORT=${CLIENT_PORT}
-      - REACT_APP_API_PORT=${API_PORT}
+      - REACT_APP_API_URL=${API_URL}
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - ESLINT_NO_DEV_ERRORS=true
     ports:
       - ${CLIENT_PORT}:${CLIENT_PORT}
-    volumes:
-      - ./client:/srv/app/client
-      - /srv/app/client/node_modules
     links:
       - api
   api:
@@ -32,16 +29,9 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_HOST_IP=mysql
-      - WAIT_HOSTS=mysql:3306
-      - WAIT_HOSTS_TIMEOUT=300
-      - WAIT_SLEEP_INTERVAL=1
-      - WAIT_HOST_CONNECT_TIMEOUT=30
       - PORT=${API_PORT}
     ports:
       - ${API_PORT}:${API_PORT}
-    volumes:
-      - ./api:/srv/app/api
-      - /srv/app/api/node_modules
     links:
       - mysql
   phpmyadmin:
