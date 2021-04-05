@@ -184,9 +184,9 @@ export default function AddProductForm() {
                 color="primary"
                 disabled={loading}
               >
-                Add
+                Add product
+                {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
               </Button>
-              {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Grid>
           </Grid>
         </form>
