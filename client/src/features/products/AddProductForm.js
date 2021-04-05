@@ -101,7 +101,7 @@ export default function AddProductForm() {
     const leftFiles = maxFiles - fileItems.length;
 
     setLabelIdle(fileItems.length
-      ? `You can ${labelIdleHtml} ${leftFiles} more image${leftFiles > 1 ? 's' : ''}.`
+      ? `You can ${labelIdleHtml} ${leftFiles} more extra image${leftFiles > 1 ? 's' : ''}.`
       : initialLabelIdle);
   };
 
@@ -174,6 +174,7 @@ export default function AddProductForm() {
                 labelIdle={labelIdle}
                 labelFileProcessing
                 labelFileLoading
+                imagePreviewHeight={156}
               />
             </Grid>
             <Grid item container justify="flex-end">
