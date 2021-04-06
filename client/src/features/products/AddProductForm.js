@@ -14,6 +14,7 @@ import lightGreen from '@material-ui/core/colors/lightGreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { CircularProgress } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 import { addNewProduct, selectStatus } from './productsSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -67,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddProductForm() {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const loading = useSelector(selectStatus) === 'loading';
   const dispatch = useDispatch();
 
@@ -78,6 +80,8 @@ export default function AddProductForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const key = enqueueSnackbar('Please wait...', { variant: 'info', persist: true });
+
     try {
       const resultAction = await dispatch(
         addNewProduct({
@@ -85,14 +89,17 @@ export default function AddProductForm() {
         }),
       );
       unwrapResult(resultAction);
+      enqueueSnackbar('Successfully added product', { variant: 'success' });
       setName('');
       setDescription('');
       setPrice('');
       setImg('');
     } catch (err) {
-      // TODO: toaster
-      console.error('Failed to add product: ', err);
+      enqueueSnackbar('Failed to add product', { variant: 'error' });
+      console.error(err);
     }
+
+    closeSnackbar(key);
   };
 
   const onImgChanged = () => {
