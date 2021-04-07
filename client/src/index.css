@@ -12,6 +12,6 @@ code {
     monospace;
 }
 
-.filepond--item/*:not(:first-child)*/ {
+#ExtraImages .filepond--item {
   width: calc(50% - .5em);
 }

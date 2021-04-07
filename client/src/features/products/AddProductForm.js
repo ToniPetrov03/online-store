@@ -49,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
   filepond: {
     marginBottom: 0,
   },
+  titleImgZone: {
+    // eslint-disable-next-line max-len
+    fontFamily: '-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;',
+  },
 }));
 
 export default function AddProductForm() {
@@ -57,14 +61,15 @@ export default function AddProductForm() {
   const loading = useSelector(selectStatus) === 'loading';
   const dispatch = useDispatch();
 
-  const maxFiles = 5;
-  const labelIdleHtml = '<em style="color: blue; text-decoration: underline; cursor: pointer">upload</em>';
-  const initialLabelIdle = `You have to ${labelIdleHtml} at least one image.`;
+  const maxExtraImages = 4;
+  const fancyUpload = '<em style="color: blue; text-decoration: underline; cursor: pointer">upload</em>';
+  const initialLabelIdle = `You can ${fancyUpload} ${maxExtraImages} more extra image${maxExtraImages > 1 ? 's' : ''}.`;
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
-  const [files, setFiles] = useState([]);
+  const [mainImage, setMainImage] = useState([]);
+  const [extraImages, setExtraImages] = useState([]);
   const [labelIdle, setLabelIdle] = useState(initialLabelIdle);
 
   const handleSubmit = async (e) => {
@@ -75,7 +80,7 @@ export default function AddProductForm() {
     try {
       const resultAction = await dispatch(
         addNewProduct({
-          name, description, price, files,
+          name, description, price, images: [...mainImage, ...extraImages],
         }),
       );
       unwrapResult(resultAction);
@@ -83,7 +88,8 @@ export default function AddProductForm() {
       setName('');
       setDescription('');
       setPrice('');
-      setFiles([]);
+      setMainImage([]);
+      setExtraImages([]);
     } catch (err) {
       enqueueSnackbar('Failed to add product', { variant: 'error' });
       console.error(err);
@@ -95,13 +101,16 @@ export default function AddProductForm() {
   const onNameChanged = (e) => setName(e.target.value);
   const onPriceChanged = (e) => setPrice(e.target.value);
   const onDescriptionChanged = (e) => setDescription(e.target.value);
-  const onUpdateFiles = (fileItems) => {
-    setFiles(fileItems.map(({ file }) => file));
+  const extractImageFiles = (images) => images.map(({ file }) => file);
+  const onUpdateMainImage = (images) => setMainImage(extractImageFiles(images));
+  const onReorderExtraImages = (images) => setExtraImages(extractImageFiles(images));
+  const onUpdateExtraImages = (images) => {
+    onReorderExtraImages(images);
 
-    const leftFiles = maxFiles - fileItems.length;
+    const leftImages = maxExtraImages - images.length;
 
-    setLabelIdle(fileItems.length
-      ? `You can ${labelIdleHtml} ${leftFiles} more extra image${leftFiles > 1 ? 's' : ''}.`
+    setLabelIdle(images.length
+      ? `You can ${fancyUpload} ${leftImages} more extra image${leftImages === 1 ? '' : 's'}.`
       : initialLabelIdle);
   };
 
@@ -160,21 +169,37 @@ export default function AddProductForm() {
               />
             </Grid>
             <Grid item xs={12}>
+              <Typography className={classes.titleImgZone}>Main image:</Typography>
               <FilePond
-                allowMultiple
-                allowReorder
+                id="MainImage"
                 dropOnPage
                 required
                 credits
-                maxFiles={maxFiles}
-                files={files}
+                maxFiles={1}
+                files={mainImage}
                 className={classes.filepond}
-                onupdatefiles={onUpdateFiles}
+                onupdatefiles={onUpdateMainImage}
+                acceptedFileTypes={['image/*']}
+                labelIdle={`<span style="color: #f50057">Main image is required.</span> ${fancyUpload}`}
+                imagePreviewHeight={256}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography className={classes.titleImgZone}>Extra images:</Typography>
+              <FilePond
+                id="ExtraImages"
+                allowMultiple
+                allowReorder
+                dropOnPage
+                credits
+                maxFiles={maxExtraImages}
+                files={extraImages}
+                className={classes.filepond}
+                onupdatefiles={onUpdateExtraImages}
+                onreorderfiles={onReorderExtraImages}
                 acceptedFileTypes={['image/*']}
                 labelIdle={labelIdle}
-                labelFileProcessing
-                labelFileLoading
-                imagePreviewHeight={156}
+                imagePreviewHeight={128}
               />
             </Grid>
             <Grid item container justify="flex-end">
