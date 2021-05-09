@@ -15,20 +15,22 @@ const sequelize = new Sequelize(
 const filename = fileURLToPath(import.meta.url);
 const directoryName = dirname(filename);
 
-const db = await readdirSync(directoryName)
+const db = await Promise.all(await readdirSync(directoryName)
   .filter(file => (file.indexOf('.') !== 0) && (file !== basename(filename)) && file.slice(-3) === '.js')
-  .reduce(async (db, file) => {
+  .map(async (file) => {
     const { default: modelFactory} = await import(pathToFileURL(join(directoryName, file)).href);
-    const model = modelFactory(sequelize, Sequelize.DataTypes, Sequelize.Model);
-    db[model.name] = model;
-    if (db[model.name].associate) {
-      db[model.name].associate(db);
-    }
+    return modelFactory(sequelize, Sequelize.DataTypes, Sequelize.Model);
+  })).then(models => {
+    return models.reduce((db, model) => {
+      db[model.name] = model;
+      return db;
+    }, {})
+});
 
-    return db;
-  }, {});
+Object.values(db)
+  .filter(m => m.associate)
+  .forEach(m => m.associate(db));
 
 db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
 export default db;

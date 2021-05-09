@@ -92,7 +92,6 @@ export default function AddProductForm() {
       setExtraImages([]);
     } catch (err) {
       enqueueSnackbar('Failed to add product', { variant: 'error' });
-      console.error(err);
     }
 
     closeSnackbar(key);
@@ -101,11 +100,16 @@ export default function AddProductForm() {
   const onNameChanged = (e) => setName(e.target.value);
   const onPriceChanged = (e) => setPrice(e.target.value);
   const onDescriptionChanged = (e) => setDescription(e.target.value);
-  const extractImageFiles = (images) => images.map(({ file }) => file);
-  const onUpdateMainImage = (images) => setMainImage(extractImageFiles(images));
-  const onReorderExtraImages = (images) => setExtraImages(extractImageFiles(images));
+  const onUpdateMainImage = (files) => {
+    if(files.length) {
+      files[0].main = true;
+    }
+
+    setMainImage(files);
+  }
+  const onReorderExtraImages = (images) => setExtraImages(images);
   const onUpdateExtraImages = (images) => {
-    onReorderExtraImages(images);
+    setExtraImages(images)
 
     const leftImages = maxExtraImages - images.length;
 

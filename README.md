@@ -77,6 +77,26 @@ This section is empty
 
 This section is empty
 
-## Running migrations
+## Migrations
+Pending migrations are run automatically on start. For more specific info see commands below.
 
-This section is empty
+```bash
+# Connect to api docker container
+docker ps
+docker exec -it <containerId> sh
+
+# Check migration status
+npx sequelize-cli db:migrate:status
+
+# Run all pending migrations
+npx sequelize-cli db:migrate
+
+# Undo latest migration
+npx sequelize-cli db:migrate:undo
+
+# Generate migration (make sure you change file extension to cjs)
+npx sequelize-cli migration:generate --name <name-of-migration>
+
+# Generate model + migration (make sure you change migration file extension to cjs)
+npx sequelize-cli model:generate --name <ModelName> --attributes <attribute-name>:<attribute-type>,...
+```

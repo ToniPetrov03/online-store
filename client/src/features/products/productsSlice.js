@@ -17,18 +17,15 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async ()
 export const addToCart = createAsyncThunk('products/addToCart', () => axios.get(`${API_URL}/products`));
 
 export const addNewProduct = createAsyncThunk('posts/addNewProduct', async (product) => {
-  const { images } = product;
-  console.log(images);
-  product.imgs = images.map((image) => {
+  product.images = product.images.map((image) => {
     // get s3 url from backend
     // upload to that url
     // get url
     const url = 'https://upload.wikimedia.org/wikipedia/'
       + 'commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG';
-    const { name } = image;
-    return { url, name };
+    const { filename, main } = image;
+    return { url, filename, main };
   });
-  delete product.images;
 
   const res = await axios.post(`${API_URL}/products`, product);
   return res.data;
@@ -43,7 +40,7 @@ const productsSlice = createSlice({
     },
     [fetchProducts.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.items = state.items.concat(action.payload);
+      state.items.push(...action.payload);
     },
     [fetchProducts.rejected]: (state, action) => {
       state.status = 'failed';
@@ -54,7 +51,7 @@ const productsSlice = createSlice({
     },
     [addNewProduct.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.items = state.items.unshift(action.payload);
+      state.items.unshift(action.payload);
     },
     [addNewProduct.rejected]: (state, action) => {
       state.status = 'failed';
