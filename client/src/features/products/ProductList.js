@@ -46,7 +46,7 @@ export default function ProductList() {
           id={product?.id}
           name={product?.name}
           price={+product?.price}
-          image={product?.images?.find(img => img.main)?.url}
+          image={product?.images?.find((img) => img.main)?.url}
           loading={status === 'loading'}
         />
       ));

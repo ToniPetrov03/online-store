@@ -12,6 +12,8 @@ services:
       args:
         - REACT_APP_API_URL=${API_URL}
         - DISABLE_ESLINT_PLUGIN=${DISABLE_ESLINT_PLUGIN}
+        - REACT_APP_BUCKET=${BUCKET}
+        - REACT_APP_S3_REGION=${S3_REGION}
     ports:
       - "1337:80"
     depends_on:
@@ -30,6 +32,10 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_HOST_IP=mysql
       - PORT=${API_PORT}
+      - S3_REGION=${S3_REGION}
+      - ACCESS_KEY_ID=${ACCESS_KEY_ID}
+      - SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
+      - BUCKET=${BUCKET}
     expose:
       - ${API_PORT}
     ports:

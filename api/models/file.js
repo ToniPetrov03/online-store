@@ -1,7 +1,7 @@
 const uppercaseFirst = str => `${str[0].toUpperCase()}${str.substr(1)}`;
 
 export default (sequelize, DataTypes, Model) => {
-  class Image extends Model {
+  class File extends Model {
     static associate(models) {
       this.belongsTo(models.product, { foreignKey: 'resourceId', constraints: false });
     }
@@ -12,7 +12,7 @@ export default (sequelize, DataTypes, Model) => {
       return this[mixinMethodName](options);
     }
   }
-  Image.init({
+  File.init({
     filename: DataTypes.STRING,
     url: DataTypes.STRING,
     main: DataTypes.BOOLEAN,
@@ -20,10 +20,10 @@ export default (sequelize, DataTypes, Model) => {
     resourceId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'image',
+    modelName: 'file',
   });
 
-  Image.addHook('afterFind', findResult => {
+  File.addHook('afterFind', findResult => {
     if (!Array.isArray(findResult)) findResult = [findResult];
     for (const instance of findResult) {
       if (instance.resourceName === 'product' && instance.product) {
@@ -35,5 +35,5 @@ export default (sequelize, DataTypes, Model) => {
     }
   });
 
-  return Image;
+  return File;
 };

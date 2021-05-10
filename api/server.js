@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import db from './models';
+import fileRoute from './routes/file.js'
 import productRoute from './routes/product.js'
 import waitForDbConnection from './utils/wait-for-db-connection'
 import { execSync } from 'child_process';
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
     res.json({message: 'Hello world.'});
 });
 
+fileRoute(app);
 productRoute(app);
 
 const PORT = process.env.PORT;

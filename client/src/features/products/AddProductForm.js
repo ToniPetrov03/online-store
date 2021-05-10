@@ -101,15 +101,15 @@ export default function AddProductForm() {
   const onPriceChanged = (e) => setPrice(e.target.value);
   const onDescriptionChanged = (e) => setDescription(e.target.value);
   const onUpdateMainImage = (files) => {
-    if(files.length) {
+    if (files.length) {
       files[0].main = true;
     }
 
     setMainImage(files);
-  }
+  };
   const onReorderExtraImages = (images) => setExtraImages(images);
   const onUpdateExtraImages = (images) => {
-    setExtraImages(images)
+    setExtraImages(images);
 
     const leftImages = maxExtraImages - images.length;
 

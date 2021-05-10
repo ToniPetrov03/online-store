@@ -1,7 +1,8 @@
 export default (sequelize, DataTypes, Model) => {
   class Product extends Model {
     static associate(models) {
-      this.hasMany(models.image, {
+      this.hasMany(models.file, {
+        as: 'images',
         foreignKey: 'resourceId',
         constraints: false,
         scope: {

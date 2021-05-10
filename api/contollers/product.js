@@ -1,7 +1,7 @@
 import models from '../models'
 import Sequelize from 'sequelize';
 
-const { product, image } = models
+const { product, file } = models
 
 export function create(req, res) {
   const { name, description, price, images } = req.body;
@@ -36,7 +36,7 @@ export function create(req, res) {
     });
   }
 
-  return product.create({ name, description, price, images }, { include: image })
+  return product.create({ name, description, price, images }, { include: { model: file, as: 'images' } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({
       message: err.message || 'Something went wrong when creating a product.'
@@ -50,7 +50,7 @@ export function findAll(req, res) {
         [Sequelize.Op.substring]: req.query.name || ''
       }
     },
-    include: image
+    include: { model: file, as: 'images' }
   })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({
@@ -63,7 +63,7 @@ export function find(req, res) {
     where: {
       id: req.params.id
     },
-    include: image,
+    include: { model: file, as: 'images' }
   })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({

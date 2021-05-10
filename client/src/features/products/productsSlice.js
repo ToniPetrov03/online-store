@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../constants';
+import uploadFile from '../../utils/uploadFile';
 
 const initialState = {
   items: [],
@@ -17,15 +18,12 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async ()
 export const addToCart = createAsyncThunk('products/addToCart', () => axios.get(`${API_URL}/products`));
 
 export const addNewProduct = createAsyncThunk('posts/addNewProduct', async (product) => {
-  product.images = product.images.map((image) => {
-    // get s3 url from backend
-    // upload to that url
-    // get url
-    const url = 'https://upload.wikimedia.org/wikipedia/'
-      + 'commons/thumb/a/a1/Fragaria_%C3%97_ananassa.JPG/220px-Fragaria_%C3%97_ananassa.JPG';
-    const { filename, main } = image;
-    return { url, filename, main };
+  const imageUploads = product.images.map(async (image) => {
+    const uploadedImage = await uploadFile(image, 'products');
+    return { ...uploadedImage, main: image.main };
   });
+
+  product.images = await Promise.all(imageUploads);
 
   const res = await axios.post(`${API_URL}/products`, product);
   return res.data;
