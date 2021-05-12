@@ -1,8 +1,10 @@
-import Models from '../models'
+import models from '../models'
 import Sequelize from 'sequelize';
 
+const { product, file } = models
+
 export function create(req, res) {
-  const {name, description, price, img} = req.body;
+  const { name, description, price, images } = req.body;
 
   if (!name) {
     res.status(400).send({
@@ -22,13 +24,19 @@ export function create(req, res) {
     });
   }
 
-  if (!img) {
+  if (!images.length) {
     res.status(400).send({
-      message: 'Image cannot be empty.'
+      message: 'Images cannot be empty.'
     });
   }
 
-  return Models.Product.create({name, description, price, img})
+  if (images.filter(img => img.main).length > 1) {
+    res.status(400).send({
+      message: 'You can have maximum of one main image.'
+    });
+  }
+
+  return product.create({ name, description, price, images }, { include: { model: file, as: 'images' } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({
       message: err.message || 'Something went wrong when creating a product.'
@@ -36,12 +44,13 @@ export function create(req, res) {
 }
 
 export function findAll(req, res) {
-  return Models.Product.findAll({
+  return product.findAll({
     where: {
       name: {
         [Sequelize.Op.substring]: req.query.name || ''
       }
-    }
+    },
+    include: { model: file, as: 'images' }
   })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({
@@ -50,10 +59,11 @@ export function findAll(req, res) {
 }
 
 export function find(req, res) {
-  return Models.Product.findAll({
+  return product.findAll({
     where: {
       id: req.params.id
-    }
+    },
+    include: { model: file, as: 'images' }
   })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({

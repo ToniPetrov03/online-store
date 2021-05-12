@@ -30,6 +30,10 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_HOST_IP=mysql
       - PORT=${API_PORT}
+      - S3_REGION=${S3_REGION}
+      - ACCESS_KEY_ID=${ACCESS_KEY_ID}
+      - SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
+      - BUCKET=${BUCKET}
     expose:
       - ${API_PORT}
     ports:

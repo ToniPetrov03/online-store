@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../constants';
+import uploadFile from '../../utils/uploadFile';
 
 const initialState = {
   items: [],
@@ -16,8 +17,15 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async ()
 
 export const addToCart = createAsyncThunk('products/addToCart', () => axios.get(`${API_URL}/products`));
 
-export const addNewProduct = createAsyncThunk('posts/addNewProduct', async (productInfo) => {
-  const res = await axios.post(`${API_URL}/products`, productInfo);
+export const addNewProduct = createAsyncThunk('posts/addNewProduct', async (product) => {
+  const imageUploads = product.images.map(async (image) => {
+    const uploadedImage = await uploadFile(image, 'products');
+    return { ...uploadedImage, main: image.main };
+  });
+
+  product.images = await Promise.all(imageUploads);
+
+  const res = await axios.post(`${API_URL}/products`, product);
   return res.data;
 });
 
@@ -30,7 +38,7 @@ const productsSlice = createSlice({
     },
     [fetchProducts.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.items = state.items.concat(action.payload);
+      state.items.push(...action.payload);
     },
     [fetchProducts.rejected]: (state, action) => {
       state.status = 'failed';
@@ -41,7 +49,7 @@ const productsSlice = createSlice({
     },
     [addNewProduct.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.items = state.items.unshift(action.payload);
+      state.items.unshift(action.payload);
     },
     [addNewProduct.rejected]: (state, action) => {
       state.status = 'failed';

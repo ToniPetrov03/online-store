@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#ExtraImages .filepond--item {
+  width: calc(50% - .5em);
+}

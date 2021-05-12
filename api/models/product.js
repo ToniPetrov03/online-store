@@ -1,22 +1,23 @@
 export default (sequelize, DataTypes, Model) => {
   class Product extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      this.hasMany(models.file, {
+        as: 'images',
+        foreignKey: 'resourceId',
+        constraints: false,
+        scope: {
+          resourceName: 'product'
+        }
+      });
     }
   }
   Product.init({
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    price: DataTypes.FLOAT,
-    img: DataTypes.STRING
+    price: DataTypes.FLOAT
   }, {
     sequelize,
-    modelName: 'Product',
+    modelName: 'product',
   });
   return Product;
 };
