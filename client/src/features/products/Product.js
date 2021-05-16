@@ -9,12 +9,12 @@ import CardActions from '@material-ui/core/CardActions';
 import { green, purple } from '@material-ui/core/colors';
 import Typography from '@material-ui/core/Typography';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { Button } from '../../components';
 import noImageAvailable from '../../images/no-image-available.jpg';
 
 const useStyles = makeStyles((theme) => ({

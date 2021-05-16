@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 import CreateIcon from '@material-ui/icons/Create';
@@ -15,6 +14,7 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import { useSnackbar } from 'notistack';
+import { Button } from '../../components';
 import { addNewProduct, selectStatus } from './productsSlice';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';

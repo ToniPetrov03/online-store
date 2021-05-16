@@ -7,7 +7,6 @@ import {
   ListItemText,
   withStyles,
   makeStyles,
-  Button,
   Toolbar,
   IconButton,
   Typography,
@@ -34,6 +33,7 @@ import {
 } from '@material-ui/core/colors';
 import axios from 'axios';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Button } from './Button';
 import useDebounce from '../hooks/use-debounce';
 import { API_URL } from '../constants';
 
