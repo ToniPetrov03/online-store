@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
-import Avatar from '@material-ui/core/Avatar';
-import CreateIcon from '@material-ui/icons/Create';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { CircularProgress } from '@material-ui/core';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import { useSnackbar } from 'notistack';
-import { Button } from '../../components';
-import { addNewProduct, selectStatus } from './productsSlice';
+import {
+  Grid,
+  Avatar,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  makeStyles,
+  CircularProgress,
+} from '../../ui/core';
+import {
+  Create,
+} from '../../ui/icons';
+import {
+  addNewProduct,
+  selectStatus,
+} from './productsSlice';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
@@ -122,7 +129,7 @@ export default function AddProductForm() {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <CreateIcon />
+          <Create />
         </Avatar>
         <Typography component="h1" variant="h5">
           Add product
