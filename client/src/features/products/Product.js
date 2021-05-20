@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import Divider from '@material-ui/core/Divider';
-import CardActions from '@material-ui/core/CardActions';
-import { green, purple } from '@material-ui/core/colors';
-import Typography from '@material-ui/core/Typography';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Favorite, FavoriteBorder } from '@material-ui/icons';
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
-import Skeleton from '@material-ui/lab/Skeleton';
+import {
+  Skeleton,
+} from '../../ui/lab';
+import {
+  Card,
+  Button,
+  Divider,
+  Checkbox,
+  CardMedia,
+  CardHeader,
+  makeStyles,
+  withStyles,
+  Typography,
+  CardActions,
+} from '../../ui/core';
+import {
+  Favorite,
+  FavoriteBorder,
+  AddShoppingCart,
+  RemoveShoppingCart,
+} from '../../ui/icons';
 import noImageAvailable from '../../images/no-image-available.jpg';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,9 +70,9 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledCheckbox = withStyles({
   root: {
-    color: green[700],
+    color: '#388e3c',
     '&$checked': {
-      color: purple[900],
+      color: '#4a148c',
     },
   },
   checked: {},
@@ -142,8 +149,8 @@ export default function Product({
         <CardActions disableSpacing>
           <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
           <StyledCheckbox
-            icon={<AddShoppingCartIcon />}
-            checkedIcon={<RemoveShoppingCartIcon />}
+            icon={<AddShoppingCart />}
+            checkedIcon={<RemoveShoppingCart />}
           />
           <Button
             size="small"

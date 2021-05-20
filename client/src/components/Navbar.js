@@ -1,39 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import {
+  Autocomplete,
+} from '../ui/lab';
+import {
+  List,
+  Badge,
   AppBar,
-  Drawer,
-  ListItemIcon,
-  ListItemText,
-  withStyles,
-  makeStyles,
   Button,
+  Drawer,
+  Divider,
   Toolbar,
+  ListItem,
+  TextField,
+  makeStyles,
+  withStyles,
   IconButton,
   Typography,
-  List,
-  ListItem,
-  Badge,
   ButtonGroup,
-  Divider,
-  TextField,
+  ListItemIcon,
+  ListItemText,
   InputAdornment,
-} from '@material-ui/core';
+} from '../ui/core';
 import {
-  ShoppingCartOutlined,
-  AddCircle,
   Menu,
-  Search,
-  Store,
-  AccountCircle,
   Email,
+  Store,
+  Search,
   Settings,
-} from '@material-ui/icons';
-import {
-  amber,
-} from '@material-ui/core/colors';
-import axios from 'axios';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+  AddCircle,
+  AccountCircle,
+  ShoppingCartOutlined,
+} from '../ui/icons';
 import useDebounce from '../hooks/use-debounce';
 import { API_URL } from '../constants';
 
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
   },
   cart: {
-    color: amber[300],
+    color: '#ffcd38',
   },
   search: {
     width: 300,

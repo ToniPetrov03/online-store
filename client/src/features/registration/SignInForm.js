@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {
+  Grid,
+  Avatar,
+  Button,
+  Dialog,
+  Checkbox,
+  TextField,
+  Container,
+  makeStyles,
+  Typography,
+  IconButton,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  InputAdornment,
+  FormControlLabel,
+  DialogContentText,
+} from '../../ui/core';
+import {
+  Visibility,
+  LockOutlined,
+  VisibilityOff,
+} from '../../ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -57,7 +61,7 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in

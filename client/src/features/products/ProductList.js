@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import { useSelector, useDispatch } from 'react-redux';
-import Product from './Product';
 import {
-  fetchProducts, selectAll, selectStatus, selectError,
+  Grid,
+  Container,
+  makeStyles,
+} from '../../ui/core';
+import {
+  fetchProducts,
+  selectAll,
+  selectStatus,
+  selectError,
 } from './productsSlice';
+import Product from './Product';
 
 const useStyles = makeStyles((theme) => ({
   root: {
