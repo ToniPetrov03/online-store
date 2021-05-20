@@ -25,12 +25,9 @@ import {
 } from '../ui/core';
 import {
   Menu,
-  Email,
   Store,
   Search,
-  Settings,
-  AddCircle,
-  AccountCircle,
+  Create,
   ShoppingCartOutlined,
 } from '../ui/icons';
 import useDebounce from '../hooks/use-debounce';
@@ -51,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
   },
   cart: {
-    color: '#ffcd38',
+    color: 'white',
   },
   search: {
     width: 300,
@@ -112,8 +109,8 @@ export default function Navbar() {
         </IconButton>
         <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
           <List className={classes.list}>
-            <Typography variant="h6">
-              Online store
+            <Typography variant="h6" align="center">
+              Magazinot
             </Typography>
             <Divider />
             <ListItem button key="home" component={Link} to="/" onClick={toggleDrawer(false)}>
@@ -123,38 +120,17 @@ export default function Navbar() {
               <ListItemText primary="Home" />
             </ListItem>
             <Divider />
-            <ListItem button key="profile" onClick={toggleDrawer(false)}>
-              <ListItemIcon>
-                <AccountCircle />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItem>
-            <Divider />
-            <ListItem button key="inbox" onClick={toggleDrawer(false)}>
-              <ListItemIcon>
-                <Email />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItem>
-            <Divider />
             <ListItem button key="add-product" component={Link} to="/add-product" onClick={toggleDrawer(false)}>
               <ListItemIcon>
-                <AddCircle />
+                <Create />
               </ListItemIcon>
               <ListItemText primary="Add product" />
-            </ListItem>
-            <Divider />
-            <ListItem button key="settings" onClick={toggleDrawer(false)}>
-              <ListItemIcon>
-                <Settings />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
             </ListItem>
             <Divider />
           </List>
         </Drawer>
         <Typography className={classes.title} variant="h6" component={Link} to="/">
-          Online store
+          Magazinot
         </Typography>
         <Autocomplete
           freeSolo
