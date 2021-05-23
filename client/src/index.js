@@ -6,11 +6,25 @@ import { SnackbarProvider } from 'notistack';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
+import { createMuiTheme, ThemeProvider } from './ui/core';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#262676',
+    },
+    secondary: {
+      main: '#ff1744',
+    },
+  },
+});
 
 ReactDOM.render(
   <Provider store={store}>
     <SnackbarProvider maxSnack={3}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </SnackbarProvider>
   </Provider>,
   document.getElementById('root'),

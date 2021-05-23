@@ -12,7 +12,6 @@ import {
   CardMedia,
   CardHeader,
   makeStyles,
-  withStyles,
   Typography,
   CardActions,
 } from '../../ui/core';
@@ -67,16 +66,6 @@ const useStyles = makeStyles((theme) => ({
     width: 0,
   },
 }));
-
-const StyledCheckbox = withStyles({
-  root: {
-    color: '#388e3c',
-    '&$checked': {
-      color: '#4a148c',
-    },
-  },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />);
 
 export default function Product({
   id, name, price, image, loading,
@@ -143,14 +132,14 @@ export default function Product({
           )}
         <Typography variant="h5" paragraph className={classes.price}>
           $
-          {price}
+          {price.toFixed(2)}
         </Typography>
         <Divider variant="middle" />
         <CardActions disableSpacing>
-          <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
-          <StyledCheckbox
-            icon={<AddShoppingCart />}
-            checkedIcon={<RemoveShoppingCart />}
+          <Checkbox icon={<FavoriteBorder color="secondary" />} checkedIcon={<Favorite />} />
+          <Checkbox
+            icon={<AddShoppingCart color="primary" />}
+            checkedIcon={<RemoveShoppingCart color="action" />}
           />
           <Button
             size="small"

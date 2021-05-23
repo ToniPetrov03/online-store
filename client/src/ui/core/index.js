@@ -49,4 +49,6 @@ export {
 export {
   makeStyles,
   withStyles,
+  createMuiTheme,
+  ThemeProvider,
 } from './Styles';
